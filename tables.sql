@@ -14,7 +14,10 @@ CREATE TABLE menus
     id          INTEGER PRIMARY KEY,
     name        TEXT    NOT NULL,
     price_cents INTEGER NOT NULL CHECK (price_cents >= 0), /* Price in cents to avoid floating point issues with SQLite */
-    active      INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1))
+    start_date  TEXT    NOT NULL, /* 'YYYY-MM-DD' : first day the menu is available */
+    end_date    TEXT    NOT NULL, /* 'YYYY-MM-DD' : last day the menu is available (= start_date for a one-day menu) */
+    active      INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
+    CHECK (end_date >= start_date)
 );
 
 CREATE TABLE menu_items
@@ -83,8 +86,10 @@ CREATE TABLE order_menu
 CREATE TABLE closings
 (
     id           INTEGER PRIMARY KEY,
-    closing_date TEXT NOT NULL UNIQUE /* 'YYYY-MM-DD HH:MM:SS' -> No Date type in SQLite*/
+    closing_date TEXT NOT NULL UNIQUE, /* 'YYYY-MM-DD' -> No Date type in SQLite*/
+    reason       TEXT /* Optional reason shown in the planning */
 );
 
 CREATE INDEX idx_orders_user ON orders (user_id);
 CREATE INDEX idx_orders_reservation ON orders (reservation_date);
+CREATE INDEX idx_menus_dates ON menus (start_date, end_date);

@@ -40,9 +40,9 @@ INSERT INTO products (id, name, price_cents, stock) VALUES
 (32, 'Chips',                          50, 60);
 
 -- ========== MENUS (exemples inventés, le visuel n'en montre pas) ==========
-INSERT INTO menus (id, name, price_cents) VALUES
-                                              (1, 'Formule Pizza + soda',            400),
-                                              (2, 'Formule Sandwich + Orangina + Chips', 350);
+INSERT INTO menus (id, name, price_cents, start_date, end_date) VALUES
+                                              (1, 'Formule Pizza + soda',                400, '2026-11-01', '2026-12-31'),
+                                              (2, 'Formule Sandwich + Orangina + Chips', 350, '2026-11-16', '2026-11-22');
 
 INSERT INTO menu_items (menu_id, product_id, quantity) VALUES
                                                            (1, 2,  1),   -- Pizza
@@ -74,6 +74,7 @@ INSERT INTO order_items (order_id, product_id, quantity, unit_price_cents) VALUE
                                                                                (2, 1,  1, 400);  -- Salade
 
 -- ========== FERMETURES ==========
-INSERT INTO closings (closing_date) VALUES
-                                        ('2026-12-25'),
-                                        ('2027-01-01');
+INSERT INTO closings (closing_date, reason) VALUES
+                                        ('2026-11-20', 'Formation du personnel'),
+                                        ('2026-12-25', 'Noël'),
+                                        ('2027-01-01', 'Jour de l''an');
